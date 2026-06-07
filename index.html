@@ -1,1 +1,161 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Plantas do Guará</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: #f4f9f4;
+            color: #333;
+            margin: 0;
+            padding: 0;
+        }
+        header {
+            background-color: #2e7d32;
+            color: white;
+            text-align: center;
+            padding: 2rem 1rem;
+        }
+        header h1 { margin: 0; font-size: 2.5rem; }
+        header p { font-size: 1.2rem; margin-top: 10px; opacity: 0.9; }
+        .container {
+            max-width: 800px;
+            margin: 20px auto;
+            padding: 0 20px;
+        }
+        .card {
+            background: white;
+            border-radius: 10px;
+            padding: 20px;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+            margin-bottom: 20px;
+        }
+        .ranking-item {
+            display: flex;
+            justify-content: space-between;
+            padding: 15px;
+            border-bottom: 1px solid #eee;
+            align-items: center;
+        }
+        .ranking-item:last-child { border-bottom: none; }
+        .plant-name { font-weight: bold; font-size: 1.1rem; color: #2e7d32; }
+        .plant-count {
+            background-color: #e8f5e9;
+            color: #1b5e20;
+            padding: 5px 15px;
+            border-radius: 20px;
+            font-weight: bold;
+        }
+        .podium-1 { border-left: 5px solid #ffd700; background-color: #fffde7; }
+        .podium-2 { border-left: 5px solid #c0c0c0; background-color: #fafafa; }
+        .podium-3 { border-left: 5px solid #cd7f32; background-color: #fbe9e7; }
+        
+        .incentivo { text-align: center; line-height: 1.6; }
+        .incentivo h2 { color: #2e7d32; }
+    </style>
+</head>
+<body>
 
+    <header>
+        <h1>🌳 Plantas do Guará</h1>
+        <p>Descubra a natureza da Avenida Contorno (Guará II)</p>
+    </header>
+
+    <div class="container">
+        
+        <div class="card incentivo">
+            <h2>Movimente-se e Explore! 🚶‍♂️🚴‍♀️</h2>
+            <p>A Avenida Contorno, com seus quase 9 km de extensão, é um convite diário para a saúde e o bem-estar. Seja em uma caminhada relaxante no fim de tarde ou pedalando pela manhã, cada passo é uma oportunidade de cuidar de você e conhecer a flora local.</p>
+            <p><strong>Viu uma planta diferente?</strong> Mande a foto para o nosso robô no Telegram e ajude a construir o nosso ranking comunitário!</p>
+        </div>
+
+        <div class="card">
+            <h2 style="text-align: center; color: #2e7d32;">🏆 Ranking das Plantas Mais Curiosas</h2>
+            <p style="text-align: center; color: #666; font-size: 0.9rem;">As espécies mais pesquisadas pelos moradores durante o trajeto.</p>
+            
+            <div id="ranking-list">
+                <p style="text-align: center; color: #888;">Carregando os dados da natureza...</p>
+            </div>
+        </div>
+
+    </div>
+
+    <script>
+        // === ATENÇÃO: COLE O SEU LINK DO CSV ENTRE AS ASPAS ABAIXO ===
+        const urlCSV = 'SEU_LINK_DO_CSV_AQUI';
+
+        async function carregarRanking() {
+            try {
+                const resposta = await fetch(urlCSV);
+                const dadosTexto = await resposta.text();
+                
+                // Quebra o texto em linhas
+                const linhas = dadosTexto.split('\n');
+                if(linhas.length < 2) return; // Sai se a planilha estiver vazia
+                
+                // Encontra qual é a coluna da "Planta identificada"
+                const cabecalho = linhas[0].toLowerCase().split(',');
+                // Procura a coluna que contém a palavra "planta"
+                const indicePlanta = cabecalho.findIndex(coluna => coluna.includes('planta'));
+                
+                if(indicePlanta === -1) {
+                    document.getElementById('ranking-list').innerHTML = '<p style="text-align: center;">Ainda não há dados suficientes para o ranking.</p>';
+                    return;
+                }
+
+                // Conta as plantas
+                const contagem = {};
+                for (let i = 1; i < linhas.length; i++) {
+                    // Divide a linha pelas vírgulas
+                    // (Lógica simples assumindo que não há vírgulas no meio dos nomes gerados pelo Gemini)
+                    const colunas = linhas[i].split(','); 
+                    if (colunas.length > indicePlanta) {
+                        const nomePlanta = colunas[indicePlanta].trim();
+                        // Ignora campos vazios
+                        if (nomePlanta && nomePlanta !== '') {
+                            contagem[nomePlanta] = (contagem[nomePlanta] || 0) + 1;
+                        }
+                    }
+                }
+
+                // Transforma em uma lista e ordena do maior para o menor
+                const ranking = Object.keys(contagem).map(planta => {
+                    return { nome: planta, votos: contagem[planta] };
+                }).sort((a, b) => b.votos - a.votos);
+
+                // Mostra no site
+                const listaHTML = document.getElementById('ranking-list');
+                listaHTML.innerHTML = ''; // Limpa a mensagem de "carregando"
+
+                if(ranking.length === 0) {
+                    listaHTML.innerHTML = '<p style="text-align: center; color: #888;">Nenhuma planta identificada ainda. Seja o primeiro!</p>';
+                    return;
+                }
+
+                ranking.forEach((item, index) => {
+                    let classePodio = '';
+                    if(index === 0) classePodio = 'podium-1';
+                    else if(index === 1) classePodio = 'podium-2';
+                    else if(index === 2) classePodio = 'podium-3';
+
+                    listaHTML.innerHTML += `
+                        <div class="ranking-item ${classePodio}">
+                            <span class="plant-name">${index + 1}º - ${item.nome}</span>
+                            <span class="plant-count">${item.votos} ${item.votos === 1 ? 'busca' : 'buscas'}</span>
+                        </div>
+                    `;
+                });
+
+            } catch (erro) {
+                console.error("Erro ao ler a planilha:", erro);
+                document.getElementById('ranking-list').innerHTML = '<p style="text-align: center; color: red;">Erro ao carregar o ranking. Tente novamente mais tarde.</p>';
+            }
+        }
+
+        // Chama a função assim que o site abre
+        carregarRanking();
+    </script>
+</body>
+</html>
