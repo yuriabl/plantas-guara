@@ -4,80 +4,181 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Plantas do Guará</title>
+    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@600&family=Montserrat:wght@300;400;600&display=swap" rel="stylesheet">
     <style>
+        :root {
+            --bg-color: #fafaf9; /* Creme muito claro, quase branco */
+            --text-main: #44403c; /* Cinza quente escuro */
+            --sage-green: #84a98c; /* Verde sábio sofisticado */
+            --sage-dark: #52796f; /* Verde mais fechado para detalhes */
+            --card-bg: #ffffff;
+            --font-heading: 'Cormorant Garamond', serif;
+            --font-body: 'Montserrat', sans-serif;
+        }
+
         body {
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            background-color: #f4f9f4;
-            color: #333;
+            font-family: var(--font-body);
+            background-color: var(--bg-color);
+            color: var(--text-main);
             margin: 0;
             padding: 0;
+            line-height: 1.6;
         }
-        header {
-            background-color: #2e7d32;
-            color: white;
+
+        /* Hero Section com Lobo Guará */
+        .hero {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-direction: column;
             text-align: center;
-            padding: 2rem 1rem;
+            padding: 60px 20px;
+            background-color: var(--card-bg);
+            border-bottom: 1px solid #e7e5e4;
         }
-        header h1 { margin: 0; font-size: 2.5rem; }
-        header p { font-size: 1.2rem; margin-top: 10px; opacity: 0.9; }
+
+        .hero-img {
+            width: 120px; /* Tamanho da imagem do lobo */
+            height: auto;
+            margin-bottom: 20px;
+            opacity: 0.8; /* Leve transparência para sofisticação */
+        }
+
+        .hero h1 {
+            font-family: var(--font-heading);
+            font-size: 3rem;
+            margin: 0;
+            color: var(--sage-dark);
+            font-weight: 600;
+        }
+
+        .hero p {
+            font-size: 1.1rem;
+            margin: 10px 0 0;
+            font-weight: 300;
+            color: #78716c;
+        }
+
         .container {
-            max-width: 800px;
-            margin: 20px auto;
+            max-width: 900px;
+            margin: 40px auto;
             padding: 0 20px;
         }
-        .card {
-            background: white;
-            border-radius: 10px;
-            padding: 20px;
-            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+
+        /* Seção de Incentivo Minimalista */
+        .card-incentivo {
+            text-align: center;
+            margin-bottom: 60px;
+        }
+
+        .card-incentivo h2 {
+            font-family: var(--font-body);
+            font-size: 1.2rem;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            color: var(--sage-dark);
+            font-weight: 600;
             margin-bottom: 20px;
         }
+
+        .card-incentivo p {
+            font-size: 1rem;
+            font-weight: 300;
+            max-width: 700px;
+            margin: 0 auto;
+        }
+
+        /* Seção do Ranking Sofisticada */
+        .ranking-title {
+            font-family: var(--font-heading);
+            font-size: 2.2rem;
+            color: var(--sage-dark);
+            text-align: center;
+            margin-bottom: 5px;
+        }
+
+        .ranking-subtitle {
+            text-align: center;
+            color: #78716c;
+            font-weight: 300;
+            margin-bottom: 30px;
+        }
+
+        #ranking-list {
+            background-color: var(--card-bg);
+            border: 1px solid #e7e5e4;
+            border-radius: 4px; /* Bordas menos arredondadas, mais limpas */
+        }
+
         .ranking-item {
             display: flex;
             justify-content: space-between;
-            padding: 15px;
-            border-bottom: 1px solid #eee;
             align-items: center;
+            padding: 20px 30px;
+            border-bottom: 1px solid #e7e5e4;
+            transition: background-color 0.2s ease;
         }
+
         .ranking-item:last-child { border-bottom: none; }
-        .plant-name { font-weight: bold; font-size: 1.1rem; color: #2e7d32; }
-        .plant-count {
-            background-color: #e8f5e9;
-            color: #1b5e20;
-            padding: 5px 15px;
-            border-radius: 20px;
-            font-weight: bold;
+
+        /* Efeito sutil ao passar o mouse */
+        .ranking-item:hover { background-color: #fcfcfb; }
+
+        .plant-info {
+            display: flex;
+            align-items: center;
+            gap: 15px;
         }
-        .podium-1 { border-left: 5px solid #ffd700; background-color: #fffde7; }
-        .podium-2 { border-left: 5px solid #c0c0c0; background-color: #fafafa; }
-        .podium-3 { border-left: 5px solid #cd7f32; background-color: #fbe9e7; }
-        
-        .incentivo { text-align: center; line-height: 1.6; }
-        .incentivo h2 { color: #2e7d32; }
+
+        .position {
+            font-family: var(--font-heading);
+            font-size: 1.5rem;
+            color: var(--sage-green);
+            width: 30px;
+            text-align: center;
+        }
+
+        .plant-name {
+            font-weight: 400;
+            font-size: 1.05rem;
+        }
+
+        .plant-count {
+            font-size: 0.9rem;
+            color: #78716c;
+            font-weight: 300;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        /* Responsividade para celulares */
+        @media (max-width: 600px) {
+            .hero h1 { font-size: 2.2rem; }
+            .ranking-item { padding: 15px; flex-direction: column; align-items: flex-start; gap: 5px; }
+            .plant-count { margin-left: 45px; }
+        }
     </style>
 </head>
 <body>
 
-    <header>
-        <h1>🌳 Plantas do Guará</h1>
-        <p>Descubra a natureza da Avenida Contorno (Guará II)</p>
-    </header>
+    <section class="hero">
+        <img src="https://upload.wikimedia.org/wikipedia/commons/e/e0/Maned_Wolf_Silhouette.svg" alt="Silhueta Lobo Guará" class="hero-img">
+        <h1>Plantas do Guará</h1>
+        <p>Avenida Contorno, Brasília-DF</p>
+    </section>
 
     <div class="container">
         
-        <div class="card incentivo">
-            <h2>Movimente-se e Explore! 🚶‍♂️🚴‍♀️</h2>
-            <p>A Avenida Contorno, com seus quase 9 km de extensão, é um convite diário para a saúde e o bem-estar. Seja em uma caminhada relaxante no fim de tarde ou pedalando pela manhã, cada passo é uma oportunidade de cuidar de você e conhecer a flora local.</p>
-            <p><strong>Viu uma planta diferente?</strong> Mande a foto para o nosso robô no Telegram e ajude a construir o nosso ranking comunitário!</p>
+        <div class="card-incentivo">
+            <h2>Movimente-se • Explore</h2>
+            <p>O trajeto de 9 km da Avenida Contorno é um refúgio de bem-estar. Em sua próxima caminhada ou pedalada, observe a flora ao redor. Se encontrar uma espécie curiosa, envie a foto para o nosso robô no Telegram e ajude a documentar a natureza do nosso bairro.</p>
         </div>
 
-        <div class="card">
-            <h2 style="text-align: center; color: #2e7d32;">🏆 Ranking das Plantas Mais Curiosas</h2>
-            <p style="text-align: center; color: #666; font-size: 0.9rem;">As espécies mais pesquisadas pelos moradores durante o trajeto.</p>
+        <h2 class="ranking-title">Ranking de Curiosidade</h2>
+        <p class="ranking-subtitle">As espécies mais pesquisadas pela comunidade.</p>
             
-            <div id="ranking-list">
-                <p style="text-align: center; color: #888;">Carregando os dados da natureza...</p>
-            </div>
+        <div id="ranking-list">
+            <p style="text-align: center; padding: 30px; color: #888; font-weight: 300;">Lendo os dados da natureza...</p>
         </div>
 
     </div>
@@ -90,59 +191,48 @@
             try {
                 const resposta = await fetch(urlCSV);
                 const dadosTexto = await resposta.text();
-                
-                // Quebra o texto em linhas
                 const linhas = dadosTexto.split('\n');
-                if(linhas.length < 2) return; // Sai se a planilha estiver vazia
+                if(linhas.length < 2) return;
                 
-                // Encontra qual é a coluna da "Planta identificada"
                 const cabecalho = linhas[0].toLowerCase().split(',');
-                // Procura a coluna que contém a palavra "planta"
                 const indicePlanta = cabecalho.findIndex(coluna => coluna.includes('planta'));
                 
                 if(indicePlanta === -1) {
-                    document.getElementById('ranking-list').innerHTML = '<p style="text-align: center;">Ainda não há dados suficientes para o ranking.</p>';
+                    document.getElementById('ranking-list').innerHTML = '<p style="text-align: center; padding: 30px;">Aguardando dados estruturados...</p>';
                     return;
                 }
 
-                // Conta as plantas
                 const contagem = {};
                 for (let i = 1; i < linhas.length; i++) {
-                    // Divide a linha pelas vírgulas
-                    // (Lógica simples assumindo que não há vírgulas no meio dos nomes gerados pelo Gemini)
                     const colunas = linhas[i].split(','); 
                     if (colunas.length > indicePlanta) {
-                        const nomePlanta = colunas[indicePlanta].trim();
-                        // Ignora campos vazios
+                        // Limpa espaços e remove aspas extras se houver
+                        const nomePlanta = colunas[indicePlanta].replace(/["']/g, "").trim();
                         if (nomePlanta && nomePlanta !== '') {
                             contagem[nomePlanta] = (contagem[nomePlanta] || 0) + 1;
                         }
                     }
                 }
 
-                // Transforma em uma lista e ordena do maior para o menor
                 const ranking = Object.keys(contagem).map(planta => {
                     return { nome: planta, votos: contagem[planta] };
                 }).sort((a, b) => b.votos - a.votos);
 
-                // Mostra no site
                 const listaHTML = document.getElementById('ranking-list');
-                listaHTML.innerHTML = ''; // Limpa a mensagem de "carregando"
+                listaHTML.innerHTML = '';
 
                 if(ranking.length === 0) {
-                    listaHTML.innerHTML = '<p style="text-align: center; color: #888;">Nenhuma planta identificada ainda. Seja o primeiro!</p>';
+                    listaHTML.innerHTML = '<p style="text-align: center; padding: 30px; color: #888; font-weight: 300;">Nenhuma planta identificada ainda.</p>';
                     return;
                 }
 
                 ranking.forEach((item, index) => {
-                    let classePodio = '';
-                    if(index === 0) classePodio = 'podium-1';
-                    else if(index === 1) classePodio = 'podium-2';
-                    else if(index === 2) classePodio = 'podium-3';
-
                     listaHTML.innerHTML += `
-                        <div class="ranking-item ${classePodio}">
-                            <span class="plant-name">${index + 1}º - ${item.nome}</span>
+                        <div class="ranking-item">
+                            <div class="plant-info">
+                                <span class="position">${index + 1}º</span>
+                                <span class="plant-name">${item.nome}</span>
+                            </div>
                             <span class="plant-count">${item.votos} ${item.votos === 1 ? 'busca' : 'buscas'}</span>
                         </div>
                     `;
@@ -150,11 +240,10 @@
 
             } catch (erro) {
                 console.error("Erro ao ler a planilha:", erro);
-                document.getElementById('ranking-list').innerHTML = '<p style="text-align: center; color: red;">Erro ao carregar o ranking. Tente novamente mais tarde.</p>';
+                document.getElementById('ranking-list').innerHTML = '<p style="text-align: center; padding: 30px; color: #a16207; font-weight: 300;">Atualizando conexão com o banco de dados...</p>';
             }
         }
 
-        // Chama a função assim que o site abre
         carregarRanking();
     </script>
 </body>
