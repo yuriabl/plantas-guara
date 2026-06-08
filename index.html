@@ -7,10 +7,10 @@
     <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@600&family=Montserrat:wght@300;400;600&display=swap" rel="stylesheet">
     <style>
         :root {
-            --bg-color: #fafaf9; /* Creme muito claro, quase branco */
-            --text-main: #44403c; /* Cinza quente escuro */
-            --sage-green: #84a98c; /* Verde sábio sofisticado */
-            --sage-dark: #52796f; /* Verde mais fechado para detalhes */
+            --bg-color: #fafaf9; 
+            --text-main: #44403c; 
+            --sage-green: #84a98c; 
+            --sage-dark: #52796f; 
             --card-bg: #ffffff;
             --font-heading: 'Cormorant Garamond', serif;
             --font-body: 'Montserrat', sans-serif;
@@ -25,7 +25,6 @@
             line-height: 1.6;
         }
 
-        /* Hero Section com Lobo Guará */
         .hero {
             display: flex;
             align-items: center;
@@ -38,10 +37,10 @@
         }
 
         .hero-img {
-            width: 120px; /* Tamanho da imagem do lobo */
+            width: 130px; 
             height: auto;
             margin-bottom: 20px;
-            opacity: 0.8; /* Leve transparência para sofisticação */
+            opacity: 0.7;
         }
 
         .hero h1 {
@@ -65,7 +64,6 @@
             padding: 0 20px;
         }
 
-        /* Seção de Incentivo Minimalista */
         .card-incentivo {
             text-align: center;
             margin-bottom: 60px;
@@ -88,7 +86,6 @@
             margin: 0 auto;
         }
 
-        /* Seção do Ranking Sofisticada */
         .ranking-title {
             font-family: var(--font-heading);
             font-size: 2.2rem;
@@ -107,7 +104,7 @@
         #ranking-list {
             background-color: var(--card-bg);
             border: 1px solid #e7e5e4;
-            border-radius: 4px; /* Bordas menos arredondadas, mais limpas */
+            border-radius: 4px; 
         }
 
         .ranking-item {
@@ -116,42 +113,13 @@
             align-items: center;
             padding: 20px 30px;
             border-bottom: 1px solid #e7e5e4;
-            transition: background-color 0.2s ease;
         }
-
         .ranking-item:last-child { border-bottom: none; }
+        .plant-info { display: flex; align-items: center; gap: 15px; }
+        .position { font-family: var(--font-heading); font-size: 1.5rem; color: var(--sage-green); width: 30px; text-align: center; }
+        .plant-name { font-weight: 400; font-size: 1.05rem; }
+        .plant-count { font-size: 0.9rem; color: #78716c; font-weight: 300; text-transform: uppercase; letter-spacing: 1px; }
 
-        /* Efeito sutil ao passar o mouse */
-        .ranking-item:hover { background-color: #fcfcfb; }
-
-        .plant-info {
-            display: flex;
-            align-items: center;
-            gap: 15px;
-        }
-
-        .position {
-            font-family: var(--font-heading);
-            font-size: 1.5rem;
-            color: var(--sage-green);
-            width: 30px;
-            text-align: center;
-        }
-
-        .plant-name {
-            font-weight: 400;
-            font-size: 1.05rem;
-        }
-
-        .plant-count {
-            font-size: 0.9rem;
-            color: #78716c;
-            font-weight: 300;
-            text-transform: uppercase;
-            letter-spacing: 1px;
-        }
-
-        /* Responsividade para celulares */
         @media (max-width: 600px) {
             .hero h1 { font-size: 2.2rem; }
             .ranking-item { padding: 15px; flex-direction: column; align-items: flex-start; gap: 5px; }
@@ -162,7 +130,7 @@
 <body>
 
     <section class="hero">
-        <img src="https://upload.wikimedia.org/wikipedia/commons/e/e0/Maned_Wolf_Silhouette.svg" alt="Silhueta Lobo Guará" class="hero-img">
+<img src="lobo-guara.jpg" alt="Lobo Guará Fotógrafo" class="hero-img">
         <h1>Plantas do Guará</h1>
         <p>Avenida Contorno, Brasília-DF</p>
     </section>
@@ -171,30 +139,70 @@
         
         <div class="card-incentivo">
             <h2>Movimente-se • Explore</h2>
-            <p>O trajeto de 9 km da Avenida Contorno é um refúgio de bem-estar. Em sua próxima caminhada ou pedalada, observe a flora ao redor. Se encontrar uma espécie curiosa, envie a foto para o nosso robô no Telegram e ajude a documentar a natureza do nosso bairro.</p>
+            <p>O trajeto de 9 km da Avenida Contorno é um refúgio de bem-estar. Em sua próxima caminhada, observe a flora ao redor. Se encontrar uma espécie curiosa, envie a foto para o nosso robô no Telegram e ajude a documentar a natureza do nosso bairro.</p>
         </div>
 
         <h2 class="ranking-title">Ranking de Curiosidade</h2>
         <p class="ranking-subtitle">As espécies mais pesquisadas pela comunidade.</p>
             
         <div id="ranking-list">
-            <p style="text-align: center; padding: 30px; color: #888; font-weight: 300;">Lendo os dados da natureza...</p>
+            <p style="text-align: center; padding: 30px; color: #888; font-weight: 300;">Processando dados botânicos...</p>
         </div>
 
     </div>
 
     <script>
+        const urlCSVBase = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vQ0FetipkJicDViwWvxT3ZjitMk818kR4Hl_1UFUvmOa5la4frC4Urj5EMIrbi1Dz6MHwYXvbWqaP_Q/pub?gid=0&single=true&output=csv';
 
-        const urlCSV = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vQ0FetipkJicDViwWvxT3ZjitMk818kR4Hl_1UFUvmOa5la4frC4Urj5EMIrbi1Dz6MHwYXvbWqaP_Q/pub?gid=0&single=true&output=csv';
+        // Função robusta para converter a estrutura do CSV em linhas reais
+        function parsearCSV(texto) {
+            let linhas = [];
+            let linhaAtual = [];
+            let dentroDeAspas = false;
+            let campoAtual = '';
+
+            for (let i = 0; i < texto.length; i++) {
+                let caractere = texto[i];
+                let proximoCaractere = texto[i + 1];
+
+                if (caractere === '"') {
+                    if (dentroDeAspas && proximoCaractere === '"') {
+                        campoAtual += '"';
+                        i++;
+                    } else {
+                        dentroDeAspas = !dentroDeAspas;
+                    }
+                } else if (caractere === ',' && !dentroDeAspas) {
+                    linhaAtual.push(campoAtual);
+                    campoAtual = '';
+                } else if ((caractere === '\r' || caractere === '\n') && !dentroDeAspas) {
+                    if (caractere === '\r' && proximoCaractere === '\n') i++;
+                    linhaAtual.push(campoAtual);
+                    linhas.push(linhaAtual);
+                    linhaAtual = [];
+                    campoAtual = '';
+                } else {
+                    campoAtual += caractere;
+                }
+            }
+            if (campoAtual || linhaAtual.length > 0) {
+                linhaAtual.push(campoAtual);
+                linhas.push(linhaAtual);
+            }
+            return linhas;
+        }
 
         async function carregarRanking() {
             try {
-                const resposta = await fetch(urlCSV);
+                const urlSemCache = urlCSVBase + '&t=' + new Date().getTime();
+                const resposta = await fetch(urlSemCache);
                 const dadosTexto = await resposta.text();
-                const linhas = dadosTexto.split('\n');
-                if(linhas.length < 2) return;
                 
-                const cabecalho = linhas[0].toLowerCase().split(',');
+                // Processa o CSV tratando corretamente as quebras de linha internas
+                const matrizDados = parsearCSV(dadosTexto);
+                if(matrizDados.length < 2) return;
+                
+                const cabecalho = matrizDados[0].map(coluna => coluna.toLowerCase().trim());
                 const indicePlanta = cabecalho.findIndex(coluna => coluna.includes('planta'));
                 
                 if(indicePlanta === -1) {
@@ -203,12 +211,11 @@
                 }
 
                 const contagem = {};
-                for (let i = 1; i < linhas.length; i++) {
-                    const colunas = linhas[i].split(','); 
+                for (let i = 1; i < matrizDados.length; i++) {
+                    const colunas = matrizDados[i];
                     if (colunas.length > indicePlanta) {
-                        // Limpa espaços e remove aspas extras se houver
-                        const nomePlanta = colunas[indicePlanta].replace(/["']/g, "").trim();
-                        if (nomePlanta && nomePlanta !== '') {
+                        let nomePlanta = colunas[indicePlanta].trim();
+                        if (nomePlanta && nomePlanta !== "") {
                             contagem[nomePlanta] = (contagem[nomePlanta] || 0) + 1;
                         }
                     }
@@ -239,8 +246,8 @@
                 });
 
             } catch (erro) {
-                console.error("Erro ao ler a planilha:", erro);
-                document.getElementById('ranking-list').innerHTML = '<p style="text-align: center; padding: 30px; color: #a16207; font-weight: 300;">Atualizando conexão com o banco de dados...</p>';
+                console.error("Erro ao processar ranking:", erro);
+                document.getElementById('ranking-list').innerHTML = '<p style="text-align: center; padding: 30px; color: #a16207; font-weight: 300;">Conectando ao banco de dados...</p>';
             }
         }
 
